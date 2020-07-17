@@ -93,10 +93,11 @@ class GrafanaAPI:
         self.url = construct_api_url()
 
         self.s = requests.Session()
-        if not isinstance(self.auth, tuple):
-            self.auth = TokenAuth(self.auth)
-        else:
-            self.auth = requests.auth.HTTPBasicAuth(*self.auth)
+        if self.auth:
+            if not isinstance(self.auth, tuple):
+                self.auth = TokenAuth(self.auth)
+            else:
+                self.auth = requests.auth.HTTPBasicAuth(*self.auth)
 
     def __getattr__(self, item):
         def __request_runnner(url, json=None, headers=None):
